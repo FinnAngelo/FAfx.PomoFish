@@ -1,19 +1,19 @@
 ﻿using FAfx.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Diagnostics;
 
 namespace FAfx.PomoFish.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class IconTests
     {
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestInitialize]
+        [SetUp]
         public void SetupBeforeEachTest()
         {
             IoC.Register<TraceSource>(null, () => new TraceSource("FAfx.PomoFish"));
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void GivenDestroyMethod_WhenGet10000Icons_ThenNoException()
         {

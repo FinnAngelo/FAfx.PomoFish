@@ -1,21 +1,21 @@
 ﻿using FAfx.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace FAfx.PomoFish.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ScreenshotTests
     {
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestInitialize]
+        [SetUp]
         public void SetupBeforeEachTest()
         {
             IoC.Register<TraceSource>(null, () => new TraceSource("FAfx.PomoFish"));
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void GivenDestroyMethod_WhenGet1000Screenshots_ThenNoException()
         {

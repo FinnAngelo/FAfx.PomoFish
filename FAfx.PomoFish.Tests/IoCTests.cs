@@ -1,22 +1,22 @@
 ﻿using FAfx.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
 namespace FAfx.PomoFish.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class IoCTests
     {
-        [TestCleanup()]
+        [TearDown()]
         public void CleanupContainer()
         {
             IoC.Clear();
         }
 
         #region Register Object
-        [TestMethod]
-        [TestCategory("Register Object")]
+        [Test]
+        [Category("IOC: Register Object")]
         public void GivenASingleRegisteredObject_WhenResolve_ThenGetTheObjectBack()
         {
             //given
@@ -27,8 +27,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual("Hello World", m.GetMessage("World"));
         }
 
-        [TestMethod]
-        [TestCategory("Register Object")]
+        [Test]
+        [Category("IOC: Register Object")]
         public void GivenMultipleRegisteredSameObjectType_WhenRegister_ThenGetSecondRegisteredObject()
         {
             //given
@@ -40,8 +40,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual(typeof(HowdyMessager), actual.GetType());
         }
 
-        [TestMethod]
-        [TestCategory("Register Object")]
+        [Test]
+        [Category("IOC: Register Object")]
         public void GivenMultipleRegisteredDifferentObjectType_WhenRegister_ThenGetNoError()
         {
             //given
@@ -51,8 +51,8 @@ namespace FAfx.PomoFish.Tests
             Assert.IsTrue(true, "No exception!");
         }
 
-        [TestMethod]
-        [TestCategory("Register Object")]
+        [Test]
+        [Category("IOC: Register Object")]
         public void GivenNoRegisteredObjectType_WhenResolve_ThenGetError()
         {
             //given
@@ -75,8 +75,8 @@ namespace FAfx.PomoFish.Tests
 
         #region Register Func
 
-        [TestMethod]
-        [TestCategory("Register Func")]
+        [Test]
+        [Category("IOC: Register Func")]
         public void GivenASingleRegisteredFunc_WhenResolve_ThenGetTheObjectBack()
         {
             //given
@@ -92,8 +92,8 @@ namespace FAfx.PomoFish.Tests
 
         #region Register Named Func
 
-        [TestMethod]
-        [TestCategory("Register Named Func")]
+        [Test]
+        [Category("IOC: Register Named Func")]
         public void GivenARegisteredNamedFunction_WhenResolve_ThenGetTheObjectBack()
         {
             //given
@@ -103,8 +103,8 @@ namespace FAfx.PomoFish.Tests
             //then
             Assert.AreEqual("Hidiho World", m.GetMessage("World"));
         }
-        [TestMethod]
-        [TestCategory("Register Named Func")]
+        [Test]
+        [Category("IOC: Register Named Func")]
         public void GivenARegisteredNullNamedFunction_WhenResolve_ThenGetTheObjectBack()
         {
             //given
@@ -115,8 +115,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual("Hidiho World", m.GetMessage("World"));
         }
 
-        [TestMethod]
-        [TestCategory("Register Named Func")]
+        [Test]
+        [Category("IOC: Register Named Func")]
         public void GivenARegisteredNamedObject_WhenResolve_ThenGetTheObjectBack()
         {
             //given
@@ -127,8 +127,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual("Hidiho World", m.GetMessage("World"));
         }
 
-        [TestMethod]
-        [TestCategory("Register Named Func")]
+        [Test]
+        [Category("IOC: Register Named Func")]
         public void GivenARegisteredNullNamedObject_WhenResolve_ThenGetTheObjectBack()
         {
             //given
@@ -141,8 +141,8 @@ namespace FAfx.PomoFish.Tests
 
 
 
-        [TestMethod]
-        [TestCategory("Register Named Func")]
+        [Test]
+        [Category("IOC: Register Named Func")]
         public void GivenMultipleNamedRegisteredFunction_WhenResolve_ThenGetTheObjectsBack()
         {
             //given
@@ -159,8 +159,8 @@ namespace FAfx.PomoFish.Tests
         #endregion
 
         #region Register Func with ResolveFunc
-        [TestMethod]
-        [TestCategory("Register Func with ResolveFunc")]
+        [Test]
+        [Category("IOC: Register Func with ResolveFunc")]
         public void GivenRegisteredCountingMessagerObject_AndIncrementCountyThing_WhenResolve_ThenCountingMessagerWasCreatedBeforeCountyThingIsIncremented()
         {
             //given
@@ -173,8 +173,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual("1 World", m.GetMessage("World"));
         }
 
-        [TestMethod]
-        [TestCategory("Register Func with ResolveFunc")]
+        [Test]
+        [Category("IOC: Register Func with ResolveFunc")]
         public void GivenRegisteredFuncToResolveAtRegister_AndIncrementCountyThing_WhenResolve_ThenCountingMessagerWasCreatedBeforeCountyThingIsIncremented()
         {
             //given
@@ -187,8 +187,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual("1 World", m.GetMessage("World"));
         }
 
-        [TestMethod]
-        [TestCategory("Register Func with ResolveFunc")]
+        [Test]
+        [Category("IOC: Register Func with ResolveFunc")]
         public void GivenRegisteredFuncToResolveAtFirstCallAndIncrement_WhenResolveAndIncrement_ThenCountingMessagerWasCreatedAfterCountyThingIsFirstIncremented()
         {
             //given
@@ -207,8 +207,8 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual("12 World", m.GetMessage("World"));
         }
 
-        [TestMethod]
-        [TestCategory("Register Func with ResolveFunc")]
+        [Test]
+        [Category("IOC: Register Func with ResolveFunc")]
         public void GivenRegisteredFuncToResolveEveryTime_WhenResolve_ThenCountingMessagerIsCreatedEveryTimeResolved()
         {
             //given

@@ -1,16 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Threading.Tasks;
 using System.Threading;
 
 namespace FAfx.PomoFish.Tests
 {
-    [TestClass]
+    [TestFixture]
+    [Category("Async")]
     public class AsyncTests
     {
         //http://caffeineoncode.com/2012/12/async-unit-tests-in-visual-studio-2012/
-        [TestMethod]
-        [TestCategory("Async")]
+        [Test]
         public async Task GivenAnAsyncUnitTest_WhenTaskRun_ThenGetResults()
         {
             //Given
@@ -21,8 +21,7 @@ namespace FAfx.PomoFish.Tests
             Assert.AreEqual(a, 10);
         }
 
-        [TestMethod]
-        [TestCategory("Async")]
+        [Test]
         //http://msdn.microsoft.com/en-us/library/vstudio/0yd65esw.aspx
         public async Task GivenABunchOfAsyncFunctions_WhenTasksRun_ThenGetResults()
         {
@@ -49,8 +48,7 @@ namespace FAfx.PomoFish.Tests
             await Task.Delay(seccondsToWait * 1000);
         }
 
-        [TestMethod]
-        [TestCategory("Async")]
+        [Test]
         [ExpectedException(typeof(AggregateException))]
         //http://msdn.microsoft.com/en-us/library/vstudio/0yd65esw.aspx
         public async Task GivenABunchOfAsyncFunctions_WhenExceptionTasksRun_ThenGetError()
@@ -76,7 +74,7 @@ namespace FAfx.PomoFish.Tests
 
         async Task ExceptionAsync(string message)
         {
-            await Task.Run(() => {throw new Exception(message);});
+            await Task.Run(() => { throw new Exception(message); });
         }
 
     }
