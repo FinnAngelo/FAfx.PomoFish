@@ -5,6 +5,7 @@ using System.Diagnostics;
 namespace FAfx.PomoFish.Tests
 {
     [TestFixture]
+    [Category("NotifyIcon")]
     public class IconTests
     {
         [SetUp]

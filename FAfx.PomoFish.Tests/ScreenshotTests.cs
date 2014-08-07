@@ -7,6 +7,7 @@ using System.Windows.Forms;
 namespace FAfx.PomoFish.Tests
 {
     [TestFixture]
+    [Category("Screenshots")]
     public class ScreenshotTests
     {
         [SetUp]
