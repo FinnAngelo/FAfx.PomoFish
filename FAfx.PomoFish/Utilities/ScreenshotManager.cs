@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Logging;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,90 +13,59 @@ namespace FAfx.Utilities
 {
     internal interface IScreenshotManager
     {
-        void WriteScreenShots(Screen[] screens, DateTime? dateTimeNow = null);
+        void WriteScreenShots(Screen[] screens, DateTime dateTimeNow);
         void WriteScreenShot(Screen screen, string folder, string fileName);
     }
     internal class ScreenshotManager : IScreenshotManager
     {
-        private static readonly TraceSource _traceSource = IoC.Resolve<TraceSource>();
-        public ScreenshotManager()
+        private readonly ILog _log;
+        public ScreenshotManager(ILog log)
         {
+            _log = log;
         }
 
-        public void WriteScreenShots(Screen[] screens, DateTime? dateTimeNow = null)
+        public void WriteScreenShots(Screen[] screens, DateTime dateTimeNow)
         {
-            _traceSource.LogEvents(new object[] { screens, dateTimeNow }, () =>
-            {
-                dateTimeNow = dateTimeNow ?? IoC.Resolve<DateTime>("Now");
+            _log.TraceFormat("WriteScreenShots(screens {0}, dateTimeNow {1} )", screens, dateTimeNow);
+            Enumerable.Range(0, screens.Length).ToList()
+                .ForEach(r =>
+                {
+                    WriteScreenShot(
+                        screens[r],
+                        string.Format("{0:yyyyMMdd}", dateTimeNow),
+                        string.Format(
+                            "{0:yyyyMMdd_hhmmss_ff}_{1}",
+                            dateTimeNow,
+                            r
+                        )
+                    );
+                });
 
-                Enumerable.Range(0, screens.Length).ToList()
-                        .ForEach(r =>
-                        {
-                            WriteScreenShot(
-                                screens[r],
-                                string.Format("{0:yyyyMMdd}", dateTimeNow),
-                                string.Format(
-                                    "{0:yyyyMMdd_hhmmss_ff}_{1}",
-                                    dateTimeNow,
-                                    r
-                                )
-                            );
-                        });
-            });
         }
         public void WriteScreenShot(Screen screen, string folder, string fileName)
         {
-            _traceSource.LogEvents(new object[] { screen, folder, fileName }, () =>
+            _log.Trace("WriteScreenShot(Screen screen, string folder, string fileName)");
+
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            Rectangle ScreenSize = screen.Bounds;
+            using (Image img = new Bitmap(ScreenSize.Width, ScreenSize.Height, PixelFormat.Format32bppArgb))
             {
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-                Rectangle ScreenSize = screen.Bounds;
-                using (Image img = new Bitmap(ScreenSize.Width, ScreenSize.Height, PixelFormat.Format32bppArgb))
+                using (Graphics g = Graphics.FromImage(img))
                 {
-                    using (Graphics g = Graphics.FromImage(img))
+                    try
                     {
-                        try
-                        {
-                            g.CopyFromScreen(ScreenSize.X, ScreenSize.Y, 0, 0, ScreenSize.Size);
-                        }
-                        catch (Win32Exception win32Ex)
-                        {
-                            _traceSource.TraceData(TraceEventType.Error, 0,
-                                new object[] {
-                                    win32Ex.ToLogString()
-                                }
-                                );
-                            _traceSource.TraceData(TraceEventType.Error, 0, ScreenSize.IsEmpty);
-                            _traceSource.TraceData(TraceEventType.Error, 0,
-                                new object[] {
-                                    ScreenSize,
-                                    ScreenSize.Bottom,
-                                    ScreenSize.Height,
-                                    ScreenSize.IsEmpty,
-                                    ScreenSize.Left,
-                                    ScreenSize.Location,
-                                    ScreenSize.Right,
-                                    ScreenSize.Top,
-                                    ScreenSize.Width,
-                                    ScreenSize.X,
-                                    ScreenSize.Y
-                                });
-
-                            _traceSource.TraceData(TraceEventType.Error, 0, ScreenSize.Size.IsEmpty);
-                            _traceSource.TraceData(TraceEventType.Error, 0,
-                                new object[] {
-                                    ScreenSize.Size,
-                                    ScreenSize.Size.Height,
-                                    ScreenSize.Size.Width
-                                });
-
-                            throw;
-                        }
-                        img.Save(folder + "\\" + fileName + ".png", ImageFormat.Png);
+                        g.CopyFromScreen(ScreenSize.X, ScreenSize.Y, 0, 0, ScreenSize.Size);
                     }
+                    catch (Win32Exception win32Ex)
+                    {
+                        _log.Error("g.CopyFromScreen Error!!!", win32Ex);
+                        throw;
+                    }
+                    img.Save(folder + "\\" + fileName + ".png", ImageFormat.Png);
                 }
-            });
+            }
         }
 
-        
+
     }
 }

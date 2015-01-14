@@ -1,4 +1,7 @@
-﻿using FAfx.Utilities;
+﻿using Common.Logging;
+using FAfx.PomoFish.Properties;
+using FAfx.PomoFish.Utilities;
+using FAfx.Utilities;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
@@ -14,12 +17,13 @@ namespace FAfx.PomoFish
         Stopped
     }
 
-    class MyApplicationContext : ApplicationContext
+    internal class MyApplicationContext : ApplicationContext
     {
-        private static readonly TraceSource _traceSource = IoC.Resolve<TraceSource>();
-        private static readonly IConfigManager _config = IoC.Resolve<IConfigManager>();
-        private static readonly IIconManager _iconManager = IoC.Resolve<IIconManager>();
-        private static readonly IScreenshotManager _screenshotManager = IoC.Resolve<IScreenshotManager>();
+        private readonly ILog _log;
+        private readonly ISettings _settings;
+        private readonly IIconManager _iconManager;
+        private readonly IScreenshotManager _screenshotManager;
+        private readonly IClock _clock;
 
         NotifyIcon _notifyIcon = new NotifyIcon();
         Timer _timer = new Timer() { Interval = 1000 };// Timer will tick every 1 second
@@ -27,133 +31,142 @@ namespace FAfx.PomoFish
         Pomodoro _pomodoro = Pomodoro.Stopped;
         DateTime _countdownEnd = DateTime.MinValue;
 
-        internal MyApplicationContext()
+        public MyApplicationContext(
+            ILog log,
+            ISettings settings,
+            IIconManager iconManager,
+            IScreenshotManager screenshotManager,
+            IClock clock)
         {
-            _traceSource.LogEvents(new object[] { }, () =>
-            {
-                _notifyIcon.Visible = true;
-                _notifyIcon.ContextMenu = new ContextMenu(
-                    new MenuItem[] {
-                        new MenuItem("Restart Pomodoro", new EventHandler(RestartPomodoro)), 
-                        new MenuItem("Disable Pomodoro", new EventHandler(DisablePomodoro)), 
-                        new MenuItem("Exit", new EventHandler(Exit)) 
-                    });
+            _log = log;
+            _settings = settings;
+            _iconManager = iconManager;
+            _screenshotManager = screenshotManager;
+            _clock = clock;
 
-                DisablePomodoro(null, null);
+            _log.Trace("MyApplicationContext(ILog log, IConfigManager config, IIconManager iconManager, IScreenshotManager screenshotManager, IDateTimeFactory dateTimeFactory)");
 
-                _timer.Tick += new EventHandler(timer_Tick);
-                _timer.Start();
+            _notifyIcon.Visible = true;
+            _notifyIcon.ContextMenu = new ContextMenu(
+                new MenuItem[] {
+                    new MenuItem("Restart Pomodoro", new EventHandler(RestartPomodoro)), 
+                    new MenuItem("Disable Pomodoro", new EventHandler(DisablePomodoro)), 
+                    new MenuItem("Exit", new EventHandler(Exit)) 
+                });
 
-                SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+            DisablePomodoro(null, null);
 
-            });
+            _timer.Tick += new EventHandler(timer_Tick);
+            _timer.Start();
+
+            SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
         }
 
         bool _screenShotIsEnabled = true;
         SessionSwitchReason _SessionSwitchReason;
         //http://stackoverflow.com/questions/44980/how-can-i-programmatically-determine-if-my-workstation-is-locked
-        void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
+        public void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
         {
-            _traceSource.LogEvents(new object[] { sender, e }, () =>
+            _log.Trace("SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)");
+            _log.TraceFormat("e.Reason: {0}", e.Reason);
+            _SessionSwitchReason = e.Reason;
+            switch (e.Reason)
             {
-                _traceSource.TraceInformation(e.Reason.ToString());
-                _SessionSwitchReason = e.Reason;
-                switch (e.Reason)
-                {
-                    case SessionSwitchReason.SessionLock:
-                        _screenShotIsEnabled = false;
-                        break;
-                    case SessionSwitchReason.SessionUnlock:
-                        _screenShotIsEnabled = true;
-                        break;
-                }
-            });
+                case SessionSwitchReason.SessionLock:
+                    _screenShotIsEnabled = false;
+                    break;
+                case SessionSwitchReason.SessionUnlock:
+                    _screenShotIsEnabled = true;
+                    break;
+            }
         }
 
-        void DisablePomodoro(object sender, EventArgs e)
+        public void DisablePomodoro(object sender, EventArgs e)
         {
-            _traceSource.LogEvents(new object[] { sender, e }, () =>
-            {
-                ChangePomodoro(Pomodoro.Stopped, DateTime.MaxValue);
-            });
+            _log.Trace("DisablePomodoro");
+
+            ChangePomodoro(Pomodoro.Stopped, DateTime.MaxValue);
+
         }
 
-        void RestartPomodoro(object sender, EventArgs e)
+        public void RestartPomodoro(object sender, EventArgs e)
         {
-            _traceSource.LogEvents(new object[] { sender, e }, () =>
-            {
-                ChangePomodoro(
-                    Pomodoro.Working,
-                    IoC.Resolve<DateTime>("Now").Add(new TimeSpan(0, _config.WorkingPeriodInMinutes, 0))
-                );
-            });
+            _log.Trace("RestartPomodoro");
+            ChangePomodoro(
+                Pomodoro.Working,
+                _clock.Now.Add(new TimeSpan(0, _settings.WorkingPeriodInMinutes, 0))
+            );
         }
 
-        void RestPomodoro(object sender, EventArgs e)
+        public void RestPomodoro(object sender, EventArgs e)
         {
-            _traceSource.LogEvents(new object[] { sender, e }, () =>
-            {
-                ChangePomodoro(
-                    Pomodoro.Resting,
-                    IoC.Resolve<DateTime>("Now").Add(new TimeSpan(0, _config.RestPeriodInMinutes, 0))
-                );
-            });
+            _log.Trace("RestPomodoro");
+            ChangePomodoro(
+                Pomodoro.Resting,
+                _clock.Now.Add(new TimeSpan(0, _settings.RestPeriodInMinutes, 0))
+            );
+
         }
 
-        void ChangePomodoro(Pomodoro pomodoro, DateTime countdownEnd)
+        public void ChangePomodoro(Pomodoro pomodoro, DateTime countdownEnd)
         {
-            _traceSource.LogEvents(new object[] { pomodoro, countdownEnd }, () =>
-            {
-                _pomodoro = pomodoro;
-                _countdownEnd = countdownEnd;
+            _log.TraceFormat("ChangePomodoro(pomodoro: {0}, countdownEnd: {1})", pomodoro, countdownEnd);
 
-                if (_config.PlaySound) SystemSounds.Exclamation.Play();
-                _notifyIcon.Text = _pomodoro.ToString();
-                _notifyIcon.BalloonTipText = _pomodoro.ToString();
-                _notifyIcon.ShowBalloonTip(1000);
-            });
+            _pomodoro = pomodoro;
+            _countdownEnd = countdownEnd;
+
+            if (_settings.PlaySound) SystemSounds.Exclamation.Play();
+            _notifyIcon.Text = _pomodoro.ToString();
+            _notifyIcon.BalloonTipText = _pomodoro.ToString();
+            _notifyIcon.ShowBalloonTip(1000);
+
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        public void timer_Tick(object sender, EventArgs e)
         {
-            _traceSource.LogEvents(new object[] { sender, e, _SessionSwitchReason }, () =>
+            _log.Trace("timer_Tick");
+
+            var now = _clock.Now;
+            if (now.Second == 0 && _screenShotIsEnabled)
             {
-                var now = IoC.Resolve<DateTime>("Now");
-                if (now.Second == 0 && _screenShotIsEnabled)
+                try
                 {
                     _screenshotManager.WriteScreenShots(Screen.AllScreens, now);
                 }
-
-                if (now > _countdownEnd)
+                catch
                 {
-                    switch (_pomodoro)
-                    {
-                        case Pomodoro.Stopped:
-                        case Pomodoro.Resting:
-                            RestartPomodoro(sender, e);
-                            break;
-                        case Pomodoro.Working:
-                            RestPomodoro(sender, e);
-                            break;
-                    }
+                    _log.ErrorFormat("_SessionSwitchReason: {0}", _SessionSwitchReason);
+                    throw;
                 }
+            }
 
-                var countDownSpan = _countdownEnd - now;
-                var countDown = (countDownSpan.Minutes == 0 ? countDownSpan.Seconds : countDownSpan.Minutes);
-                _iconManager.SetNotifyIcon(_notifyIcon, _pomodoro, countDown);
+            if (now > _countdownEnd)
+            {
+                switch (_pomodoro)
+                {
+                    case Pomodoro.Stopped:
+                    case Pomodoro.Resting:
+                        RestartPomodoro(sender, e);
+                        break;
+                    case Pomodoro.Working:
+                        RestPomodoro(sender, e);
+                        break;
+                }
+            }
 
-            });
+            var countDownSpan = _countdownEnd - now;
+            var countDown = (countDownSpan.Minutes == 0 ? countDownSpan.Seconds : countDownSpan.Minutes);
+            _iconManager.SetNotifyIcon(_notifyIcon, _pomodoro, countDown);
         }
 
-        void Exit(object sender, EventArgs e)
+        public void Exit(object sender, EventArgs e)
         {
-            _traceSource.LogEvents(new object[] { sender, e }, () =>
-            {
-                // We must manually tidy up and remove the icon before we exit.
-                // Otherwise it will be left behind until the user mouses over.
-                _notifyIcon.Visible = false;
-                Application.Exit();
-            });
+            _log.Trace("Exit");
+
+            // We must manually tidy up and remove the icon before we exit.
+            // Otherwise it will be left behind until the user mouses over.
+            _notifyIcon.Visible = false;
+            Application.Exit();
         }
     }
 }

@@ -1,28 +1,24 @@
-﻿using FAfx.Utilities;
-using NUnit.Framework;
+﻿using Common.Logging;
+using FAfx.Utilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System.Diagnostics;
 
 namespace FAfx.PomoFish.Tests
 {
-    [TestFixture]
-    [Category("NotifyIcon")]
+    [TestClass]
     public class IconTests
     {
-        [SetUp]
-        public void SetupBeforeEachTest()
-        {
-            IoC.Register<TraceSource>(null, () => new TraceSource("FAfx.PomoFish"));
-        }
-
-        [Test]
-        [Ignore]
+        [TestMethod]
+        //[Ignore]
         public void GivenDestroyMethod_WhenGet10000Icons_ThenNoException()
         {
             //Given
-            var im = new IconManager();
+            var moqLog = new Mock<ILog>();
+            var im = new IconManager(moqLog.Object);
 
             //When
-            for (int a = 0; a < 15000; a++)
+            for (int a = 0; a < 150; a++)
             {
                 im.SetNotifyIcon(null, Pomodoro.Resting, a);
             }
