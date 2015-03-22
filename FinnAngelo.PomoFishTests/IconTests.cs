@@ -1,10 +1,10 @@
 ﻿using Common.Logging;
-using FAfx.Utilities;
+using FinnAngelo.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Diagnostics;
 
-namespace FAfx.PomoFish.Tests
+namespace FinnAngelo.PomoFishTests
 {
     [TestClass]
     public class IconTests

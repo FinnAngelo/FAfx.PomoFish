@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAfx.PomoFish", "FAfx.PomoFish\FAfx.PomoFish.csproj", "{689E4D40-8F0F-4868-80DE-498E100723A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinnAngelo.PomoFish", "FinnAngelo.PomoFish\FinnAngelo.PomoFish.csproj", "{689E4D40-8F0F-4868-80DE-498E100723A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAfx.PomoFish.Tests", "FAfx.PomoFish.Tests\FAfx.PomoFish.Tests.csproj", "{91415768-AE1D-41EA-9C1E-FB593F37840C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinnAngelo.PomoFishTests", "FinnAngelo.PomoFishTests\FinnAngelo.PomoFishTests.csproj", "{91415768-AE1D-41EA-9C1E-FB593F37840C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

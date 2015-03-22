@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace FAfx.PomoFish.Tests
+namespace FinnAngelo.PomoFishTests
 {
     [TestClass]
     public class AsyncTests

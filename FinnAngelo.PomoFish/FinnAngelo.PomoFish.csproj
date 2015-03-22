@@ -7,8 +7,8 @@
     <ProjectGuid>{689E4D40-8F0F-4868-80DE-498E100723A8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FAfx.PomoFish</RootNamespace>
-    <AssemblyName>FAfx.PomoFish</AssemblyName>
+    <RootNamespace>FinnAngelo.PomoFish</RootNamespace>
+    <AssemblyName>FinnAngelo.PomoFish</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -54,7 +54,7 @@
     <ManifestCertificateThumbprint>D770C6AD36DCD5E6E5CC95677F4CA447E04BB50B</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>FAfx.PomoFish_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FinnAngelo.PomoFish_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -120,7 +120,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\FAfx.PomoFish.Properties.ISettings.datasource" />
+    <None Include="Properties\DataSources\FinnAngelo.PomoFish.Properties.ISettings.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -1,4 +1,4 @@
-﻿namespace FAfx.PomoFish
+﻿namespace FinnAngelo.PomoFish
 {
     partial class SettingsForm
     {
@@ -208,7 +208,7 @@
             // 
             // iSettingsBindingSource
             // 
-            this.iSettingsBindingSource.DataSource = typeof(FAfx.PomoFish.Properties.ISettings);
+            this.iSettingsBindingSource.DataSource = typeof(FinnAngelo.PomoFish.Properties.ISettings);
             // 
             // SettingsForm
             // 

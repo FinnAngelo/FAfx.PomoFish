@@ -1,9 +1,9 @@
-﻿using FAfx.PomoFish.Properties;
+﻿using FinnAngelo.PomoFish.Properties;
 using System;
 using System.Collections;
 using System.Configuration;
 
-namespace FAfx.PomoFish.Properties
+namespace FinnAngelo.PomoFish.Properties
 {
     interface ISettings
     {

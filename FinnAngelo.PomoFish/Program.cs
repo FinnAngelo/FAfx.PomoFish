@@ -1,14 +1,14 @@
 ﻿using Common.Logging;
-using FAfx.PomoFish.Properties;
-using FAfx.PomoFish.Utilities;
-using FAfx.Utilities;
+using FinnAngelo.PomoFish.Properties;
+using FinnAngelo.PomoFish.Utilities;
+using FinnAngelo.Utilities;
 using SimpleInjector;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
 //http://mike.woelmer.com/2009/04/dealing-with-unhandled-exceptions-in-winforms/
-namespace FAfx.PomoFish
+namespace FinnAngelo.PomoFish
 {
     static class Program
     {
@@ -46,7 +46,7 @@ namespace FAfx.PomoFish
             }
             catch (Exception Ex)
             {
-                container.GetInstance<ILog>().Error("FAfx.PomoFish.Program > Main()", Ex);
+                container.GetInstance<ILog>().Error("FinnAngelo.PomoFish.Program > Main()", Ex);
                 throw;
             }
 

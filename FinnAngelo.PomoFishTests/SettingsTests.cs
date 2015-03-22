@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FAfx.PomoFish.Properties;
+using FinnAngelo.PomoFish.Properties;
 
-namespace FAfx.PomoFish.Tests
+namespace FinnAngelo.PomoFishTests
 {
     [TestClass]
     public class SettingsTests

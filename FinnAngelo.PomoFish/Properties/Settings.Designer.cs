@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FAfx.PomoFish.Properties {
+namespace FinnAngelo.PomoFish.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

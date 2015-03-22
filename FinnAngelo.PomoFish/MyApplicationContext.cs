@@ -1,14 +1,14 @@
 ﻿using Common.Logging;
-using FAfx.PomoFish.Properties;
-using FAfx.PomoFish.Utilities;
-using FAfx.Utilities;
+using FinnAngelo.PomoFish.Properties;
+using FinnAngelo.PomoFish.Utilities;
+using FinnAngelo.Utilities;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Media;
 using System.Windows.Forms;
 
-namespace FAfx.PomoFish
+namespace FinnAngelo.PomoFish
 {
     enum Pomodoro
     {

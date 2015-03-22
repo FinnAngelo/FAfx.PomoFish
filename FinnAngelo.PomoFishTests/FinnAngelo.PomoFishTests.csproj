@@ -6,8 +6,8 @@
     <ProjectGuid>{91415768-AE1D-41EA-9C1E-FB593F37840C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FAfx.PomoFish.Tests</RootNamespace>
-    <AssemblyName>FAfx.PomoFish.Tests</AssemblyName>
+    <RootNamespace>FinnAngelo.PomoFishTests</RootNamespace>
+    <AssemblyName>FinnAngelo.PomoFishTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -68,9 +68,9 @@
     <Compile Include="SettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FAfx.PomoFish\FAfx.PomoFish.csproj">
+    <ProjectReference Include="..\FinnAngelo.PomoFish\FinnAngelo.PomoFish.csproj">
       <Project>{689e4d40-8f0f-4868-80de-498e100723a8}</Project>
-      <Name>FAfx.PomoFish</Name>
+      <Name>FinnAngelo.PomoFish</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

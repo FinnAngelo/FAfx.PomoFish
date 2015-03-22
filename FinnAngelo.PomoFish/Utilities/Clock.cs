@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FAfx.PomoFish.Utilities
+namespace FinnAngelo.PomoFish.Utilities
 {
     internal interface IClock
     {

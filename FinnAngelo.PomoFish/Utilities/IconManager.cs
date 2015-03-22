@@ -1,5 +1,5 @@
 ﻿using Common.Logging;
-using FAfx.PomoFish;
+using FinnAngelo.PomoFish;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace FAfx.Utilities
+namespace FinnAngelo.Utilities
 {
     internal interface IIconManager
     {

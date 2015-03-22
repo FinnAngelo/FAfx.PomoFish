@@ -1,12 +1,12 @@
 ﻿using Common.Logging;
-using FAfx.Utilities;
+using FinnAngelo.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace FAfx.PomoFish.Tests
+namespace FinnAngelo.PomoFishTests
 {
     [TestClass]
     public class ScreenshotTests

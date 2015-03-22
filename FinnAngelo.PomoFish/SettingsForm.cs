@@ -1,5 +1,5 @@
 ﻿using Common.Logging;
-using FAfx.PomoFish.Properties;
+using FinnAngelo.PomoFish.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FAfx.PomoFish
+namespace FinnAngelo.PomoFish
 {
     public partial class SettingsForm : Form
     {
