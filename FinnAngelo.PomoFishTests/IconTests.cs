@@ -1,6 +1,7 @@
 ﻿using Common.Logging;
 using FinnAngelo.PomoFish;
-using FinnAngelo.Utilities;
+using FinnAngelo.PomoFish.Modules;
+using FinnAngelo.PomoFish.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace FinnAngelo.PomoFishTests
             //When
             for (int a = 0; a < 150; a++)
             {
-                im.SetNotifyIcon(null, Pomodoro.Resting, a);
+                im.SetNotifyIcon(null, new PomodoroNotifyIconDetails(Pomodoro.Working, a ));
             }
 
             //Then

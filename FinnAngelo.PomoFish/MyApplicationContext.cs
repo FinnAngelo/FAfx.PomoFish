@@ -1,7 +1,7 @@
 ﻿using Common.Logging;
+using FinnAngelo.PomoFish.Modules;
 using FinnAngelo.PomoFish.Properties;
 using FinnAngelo.PomoFish.Utilities;
-using FinnAngelo.Utilities;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
@@ -10,39 +10,31 @@ using System.Windows.Forms;
 
 namespace FinnAngelo.PomoFish
 {
-    enum Pomodoro
+    
+
+    internal interface INotifyEventListener
     {
-        Working,
-        Resting,
-        Stopped
+        void Notify(object sender, NotifyEventArgs e);
     }
 
     internal class MyApplicationContext : ApplicationContext
     {
         private readonly ILog _log;
-        private readonly ISettings _settings;
+        private readonly IPomodoroManager _PomodoroManager;
+
+
         private readonly IIconManager _iconManager;
-        private readonly IScreenshotManager _screenshotManager;
-        private readonly IClock _clock;
-
-        NotifyIcon _notifyIcon = new NotifyIcon();
-        Timer _timer = new Timer() { Interval = 1000 };// Timer will tick every 1 second
-
-        Pomodoro _pomodoro = Pomodoro.Stopped;
-        DateTime _countdownEnd = DateTime.MinValue;
+        private readonly NotifyIcon _notifyIcon = new NotifyIcon();
 
         public MyApplicationContext(
-            ILog log,
-            ISettings settings,
-            IIconManager iconManager,
-            IScreenshotManager screenshotManager,
-            IClock clock)
+            ILog log,          
+            IIconManager iconManager,  
+            IPomodoroManager pomodoroManager)
         {
             _log = log;
-            _settings = settings;
             _iconManager = iconManager;
-            _screenshotManager = screenshotManager;
-            _clock = clock;
+            _PomodoroManager = pomodoroManager;
+            _PomodoroManager.Notify += new NotifyHandler(this.Notify);
 
             _log.Trace("MyApplicationContext(ILog log, IConfigManager config, IIconManager iconManager, IScreenshotManager screenshotManager, IDateTimeFactory dateTimeFactory)");
 
@@ -55,108 +47,48 @@ namespace FinnAngelo.PomoFish
                 });
 
             DisablePomodoro(null, null);
-
-            _timer.Tick += new EventHandler(timer_Tick);
-            _timer.Start();
-
-            SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
         }
 
-        bool _screenShotIsEnabled = true;
-        SessionSwitchReason _SessionSwitchReason;
-        //http://stackoverflow.com/questions/44980/how-can-i-programmatically-determine-if-my-workstation-is-locked
-        public void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
-        {
-            _log.Trace("SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)");
-            _log.TraceFormat("e.Reason: {0}", e.Reason);
-            _SessionSwitchReason = e.Reason;
-            switch (e.Reason)
-            {
-                case SessionSwitchReason.SessionLock:
-                    _screenShotIsEnabled = false;
-                    break;
-                case SessionSwitchReason.SessionUnlock:
-                    _screenShotIsEnabled = true;
-                    break;
-            }
-        }
+        
 
         public void DisablePomodoro(object sender, EventArgs e)
         {
             _log.Trace("DisablePomodoro");
 
-            ChangePomodoro(Pomodoro.Stopped, DateTime.MaxValue);
+            _PomodoroManager.ChangePomodoro(Pomodoro.Stopped, int.MaxValue);
 
         }
 
         public void RestartPomodoro(object sender, EventArgs e)
         {
             _log.Trace("RestartPomodoro");
-            ChangePomodoro(
+            _PomodoroManager.ChangePomodoro(
                 Pomodoro.Working,
-                _clock.Now.Add(new TimeSpan(0, _settings.WorkingPeriodInMinutes, 0))
+                1// _settings.WorkingPeriodInMinutes
             );
         }
 
         public void RestPomodoro(object sender, EventArgs e)
         {
             _log.Trace("RestPomodoro");
-            ChangePomodoro(
+            _PomodoroManager.ChangePomodoro(
                 Pomodoro.Resting,
-                _clock.Now.Add(new TimeSpan(0, _settings.RestPeriodInMinutes, 0))
+                1//_settings.RestPeriodInMinutes
             );
-
         }
 
-        public void ChangePomodoro(Pomodoro pomodoro, DateTime countdownEnd)
+        public void Notify(object sender, NotifyEventArgs e)
         {
-            _log.TraceFormat("ChangePomodoro(pomodoro: {0}, countdownEnd: {1})", pomodoro, countdownEnd);
+            //SystemSounds.Exclamation.Play();
 
-            _pomodoro = pomodoro;
-            _countdownEnd = countdownEnd;
+            _notifyIcon.Text = e.Alert.Header.ToString();
+            _notifyIcon.BalloonTipText = e.Alert.Body.ToString();
+            _notifyIcon.ShowBalloonTip(500);
 
-            if (_settings.PlaySound) SystemSounds.Exclamation.Play();
-            _notifyIcon.Text = _pomodoro.ToString();
-            _notifyIcon.BalloonTipText = _pomodoro.ToString();
-            _notifyIcon.ShowBalloonTip(1000);
-
-        }
-
-        public void timer_Tick(object sender, EventArgs e)
-        {
-            _log.Trace("timer_Tick");
-
-            var now = _clock.Now;
-            if (now.Second == 0 && _screenShotIsEnabled)
+            if (e.IconDetails != null)
             {
-                try
-                {
-                    _screenshotManager.WriteScreenShots(Screen.AllScreens, now);
-                }
-                catch
-                {
-                    _log.ErrorFormat("_SessionSwitchReason: {0}", _SessionSwitchReason);
-                    throw;
-                }
+                _iconManager.SetNotifyIcon(_notifyIcon, e.IconDetails);
             }
-
-            if (now > _countdownEnd)
-            {
-                switch (_pomodoro)
-                {
-                    case Pomodoro.Stopped:
-                    case Pomodoro.Resting:
-                        RestartPomodoro(sender, e);
-                        break;
-                    case Pomodoro.Working:
-                        RestPomodoro(sender, e);
-                        break;
-                }
-            }
-
-            var countDownSpan = _countdownEnd - now;
-            var countDown = (countDownSpan.Minutes == 0 ? countDownSpan.Seconds : countDownSpan.Minutes);
-            _iconManager.SetNotifyIcon(_notifyIcon, _pomodoro, countDown);
         }
 
         public void Exit(object sender, EventArgs e)

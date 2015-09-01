@@ -1,7 +1,7 @@
 ﻿using Common.Logging;
+using FinnAngelo.PomoFish.Modules;
 using FinnAngelo.PomoFish.Properties;
 using FinnAngelo.PomoFish.Utilities;
-using FinnAngelo.Utilities;
 using SimpleInjector;
 using System;
 using System.Diagnostics;
@@ -23,17 +23,10 @@ namespace FinnAngelo.PomoFish
             var container = new Container();
 
             container.RegisterSingle<ILog>(() => LogManager.GetCurrentClassLogger());
-            container.RegisterSingle<ISettings, Settings>();
-            container.RegisterSingle<IIconManager, IconManager>();
-            container.RegisterSingle<IScreenshotManager, ScreenshotManager>();
             container.RegisterSingle<IClock, Clock>();
+            container.RegisterSingle<IIconManager, IconManager>();
+            container.RegisterSingle<IPomodoroManager, PomodoroManager>();
             container.RegisterSingle<MyApplicationContext, MyApplicationContext>();
-            container.RegisterSingle<SettingsForm>(
-                () => new SettingsForm(
-                    container.GetInstance<ILog>(),
-                    container.GetInstance<ISettings>()
-                        )
-                );
 
             #endregion
 
@@ -41,8 +34,7 @@ namespace FinnAngelo.PomoFish
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                //Application.Run(container.GetInstance<MyApplicationContext>());
-                Application.Run(container.GetInstance<SettingsForm>());
+                Application.Run(container.GetInstance<MyApplicationContext>());
             }
             catch (Exception Ex)
             {
