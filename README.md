@@ -31,18 +31,19 @@ Features
     shows how many seconds to go
     * It shows these minutes/seconds in the taskbar when minimised, 
         which is useful.
-02. It locks Windows (as per `winkey-L`) at the end of 25 minutes
-03. And then it closes
-04. Yes. It is that awesome.
-04. **It has a pretty ICON**
-    * It surprised me how much more useable it is with an icon
+03. It locks Windows (as per `winkey-L`) at the end of 25 minutes
+04. And then it closes
+05. Yes. It is that awesome.
+06. **It has a pretty ICON**
+    * It surprised me how much more useable it is with the pretty icon
 
 ----------
 How to use
 ----------
 
 01. Copy the `Pomofish.exe` and the `Pomofish.exe.config` files to a folder
-02. Run `Pomofish.exe` and pin it to your taskbar
+02. Run `Pomofish.exe`, right-click and pin it to your taskbar
+    ![Pin to toolbar on right-click](Resources/Toolbar.png)
 03. You now have 25 minutes until your PC locks
 04. When your PC locks... go have a cup of tea. Plan your next pomo, 
     whatever
