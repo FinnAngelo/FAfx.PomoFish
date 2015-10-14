@@ -1,8 +1,5 @@
-﻿using Common.Logging;
-using FinnAngelo.PomoFish.Modules;
+﻿using FinnAngelo.PomoFish.Modules;
 using FinnAngelo.PomoFish.Properties;
-using FinnAngelo.PomoFish.Utilities;
-using SimpleInjector;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -18,28 +15,26 @@ namespace FinnAngelo.PomoFish
         [STAThread]
         static void Main()
         {
-            #region SimpleInjector.Register
-
-            var container = new Container();
-
-            container.RegisterSingle<ILog>(() => LogManager.GetCurrentClassLogger());
-            container.RegisterSingle<IClock, Clock>();
-            container.RegisterSingle<IIconManager, IconManager>();
-            container.RegisterSingle<IPomodoroManager, PomodoroManager>();
-            container.RegisterSingle<MyApplicationContext, MyApplicationContext>();
-
-            #endregion
-
+            MyApplicationContext myApplicationContext = null;
             try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(container.GetInstance<MyApplicationContext>());
+                myApplicationContext = new MyApplicationContext();
+                Application.Run(myApplicationContext);
             }
             catch (Exception Ex)
             {
-                container.GetInstance<ILog>().Error("FinnAngelo.PomoFish.Program > Main()", Ex);
+                Debug.Assert(Ex != null, Ex.Message);
                 throw;
+            }
+            finally
+            {
+
+                // We must manually tidy up and remove the icon before we exit.
+                // Otherwise it will be left behind until the user mouses over.
+                myApplicationContext.NotifyIcon.Visible = false;
+                myApplicationContext.NotifyIcon.Dispose();
             }
 
 

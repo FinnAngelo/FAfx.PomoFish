@@ -2,20 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FinnAngelo.PomoFish.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="WorkingPeriodInMinutes" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">25</Value>
+    <Setting Name="PomodoroLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="RestPeriodInMinutes" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
-    </Setting>
-    <Setting Name="PlaySound" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="TakeSnapshots" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SnapshotPeriodInSeconds" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
+    <Setting Name="OnComplete" Type="FinnAngelo.PomoFish.Modules.OnComplete" Scope="User">
+      <Value Profile="(Default)">Alert</Value>
     </Setting>
   </Settings>
 </SettingsFile>

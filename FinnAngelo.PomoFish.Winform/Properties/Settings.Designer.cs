@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FinnAngelo.PomoFish.Properties {
+namespace FinnAngelo.PomoFish.Winform.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -23,27 +23,12 @@ namespace FinnAngelo.PomoFish.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int PomodoroLength {
+        public int DurationInMinutes {
             get {
-                return ((int)(this["PomodoroLength"]));
-            }
-            set {
-                this["PomodoroLength"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Alert")]
-        public global::FinnAngelo.PomoFish.Modules.OnComplete OnComplete {
-            get {
-                return ((global::FinnAngelo.PomoFish.Modules.OnComplete)(this["OnComplete"]));
-            }
-            set {
-                this["OnComplete"] = value;
+                return ((int)(this["DurationInMinutes"]));
             }
         }
     }
