@@ -13,10 +13,10 @@ The Pomodoro Technique
 If you don't know the [Pomodoro technique](http://pomodorotechnique.com/), 
     a short summery is:
 
-* Focus 100% on something for 25 minutes
+* Focus 100% on something for 25 minutes - a **Pomo**
     * Write down all of thems distractions/interuptions/vague brain wanderings 
         as they occur and [keep on swimming](https://www.youtube.com/watch?v=0Hkn-LSh7es)
-* Disengage for the next 5-10 minutes
+* Disengage for the next 5-10 minutes - a **Rest**
     * plan your next 25 minutes
     * or chase up the interuptions
     * or have a cup of tea, whatever
