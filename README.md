@@ -1,7 +1,7 @@
 FinnAngelo.PomoFish
 ===================
 
-Pomofish is a simple Pomodoro timer.
+Pomofish is a simple pomodoro timer that locks your PC at the end of 25 minutes
 
 This is a `Minimum-Viable-Product`, and it is surprisingly useful.  
 I'm using it _right now!_
