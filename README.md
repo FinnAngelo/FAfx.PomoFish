@@ -15,7 +15,8 @@ If you don't know the [Pomodoro technique](http://pomodorotechnique.com/), here 
 * Focus 100% on something for 25 minutes - a **Pomo**
     * Write down any distractions/interruptions/vague brain wanderings as they occur and [keep on swimming](https://www.youtube.com/watch?v=0Hkn-LSh7es)
 * Disengage for the next 5-10 minutes - a **Rest**
-    * plan your next 25 minutes
+    * just a quick check - have you fallen down a rabbit hole and need to change your approach?
+    * Then maybe plan your next 25 minutes
     * or chase up the interruptions
     * or have a cup of tea, whatever
     * Just _stop. your. brain._
