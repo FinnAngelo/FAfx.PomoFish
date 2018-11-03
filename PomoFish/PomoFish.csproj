@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+    <ApplicationIcon>PomofishIcon.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <OutputType>WinExe</OutputType>
+    <StartupObject />
+    <PackageId>FinnAngelo.PomoFish</PackageId>
+    <Authors>Jon Finn Angelo</Authors>
+    <Company>Jon Finn Angelo</Company>
+    <Description>A simple pomodoro timer that locks your PC at the end of 25 minutes</Description>
+    <Copyright>Copyright © Jon Finn Angelo $([System.DateTime]::Now.ToString("yyyy"))</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/FinnAngelo/PomoFish/gh-pages/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/FinnAngelo/PomoFish</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/FinnAngelo/PomoFish</RepositoryUrl>
+    <PackageReleaseNotes>
+      Built: $([System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss"))
+    </PackageReleaseNotes>
+    <PackageTags>pomodoro timer</PackageTags>
+    <AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmm.ssff"))</AssemblyVersion>
+    <FileVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmm.ssff"))</FileVersion>
+    <Version>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmmss"))</Version>
+    <InformationalVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmmss"))</InformationalVersion >
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\PomofishIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PomofishIcon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="frmTimer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmTimer.Designer.cs">
+      <DependentUpon>frmTimer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Settings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="frmTimer.resx">
+      <DependentUpon>frmTimer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

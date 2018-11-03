@@ -1,4 +1,4 @@
-﻿using FinnAngelo.PomoFish.Properties;
+﻿using PomoFish;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -17,29 +17,29 @@ namespace FinnAngelo.PomoFish
 
             _timer = timer;
             _timer.Interval = 1000;// Timer will tick every 1 second
-            _timer.Tick += timer_Tick;
+            _timer.Tick += Timer_Tick;
 
             _countdownEnd = DateTime.Now.AddMinutes(Settings.Default.DurationInMinutes);
             _timer.Start();
 
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        void Timer_Tick(object sender, EventArgs e)
         {
-            var now = DateTime.Now;
+            DateTime now = DateTime.Now;
 
             if (now > _countdownEnd)
             {
-                NativeMethods.LockWorkStation();
+                NativeMethods.LockPC();
                 Application.Exit();
             }
             else
             {
-                var countDownSpan = _countdownEnd - now;
+                TimeSpan countDownSpan = _countdownEnd - now;
                 int countDown;
                 if (countDownSpan.Minutes == 0)
                 {
-                    if (this.WindowState == FormWindowState.Minimized) this.WindowState = FormWindowState.Normal;
+                    if (WindowState == FormWindowState.Minimized) WindowState = FormWindowState.Normal;
                     countDown = countDownSpan.Seconds;
                 }
                 else
@@ -47,7 +47,7 @@ namespace FinnAngelo.PomoFish
                     countDown = countDownSpan.Minutes;
                 };
                 lblCountDown.Text = countDown.ToString(CultureInfo.CurrentCulture);
-                this.Text = countDown.ToString(CultureInfo.CurrentCulture);
+                Text = countDown.ToString(CultureInfo.CurrentCulture);
             }
         }
     }
