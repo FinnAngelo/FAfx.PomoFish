@@ -24,6 +24,12 @@ steps:
       Invoke-Pester $(Build.SourcesDirectory)\WixInstaller\WixInstaller.Tests.ps1 -ExcludeTag "ExcludeOnAzure" -OutputFile "./Test-Pester.XML" -OutputFormat 'NUnitXML' -CodeCoverage "./*.ps1"
       Invoke-Pester 
 
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'NUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
+
 #- task: NuGetCommand@2
 #  inputs:
 #    restoreSolution: '$(solution)'
