@@ -12,7 +12,17 @@
 
 ## Doing ##
 
+Make Wix installer
+
++ Powershell Function to install nuget and wix tools
+    + Powershell path validation so no wiping of hard disk 😱
+
 ## ToDo
+
+Make Wix installer
+
++ [CodeProject - Create an MSI installer with WiX](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with)
++ 
 
 ## Done ##
 
