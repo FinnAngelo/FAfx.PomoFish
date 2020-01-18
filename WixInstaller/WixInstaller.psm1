@@ -1,8 +1,10 @@
 Set-StrictMode  -Version Latest
 
-function Get-SourceDir([string]$sourceDir) {
-    if ([String]::IsNullOrWhiteSpace($sourceDir) ) {         
+function Get-SourcesDirectory {
+    if ([String]::IsNullOrWhiteSpace($env:Build_SourcesDirectory) ) {         
         $sourceDir = $PSScriptRoot + "\.."
+    } else {
+        $sourceDir = $env:Build_SourcesDirectory
     }
 
     $result = Convert-Path $sourceDir
