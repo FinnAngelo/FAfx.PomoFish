@@ -21,7 +21,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your PowerShell commands here.
-      Invoke-Pester $(Build.SourcesDirectory)\WixInstaller\WixInstaller.Tests.ps1 -ExcludeTags "ExcludeOnAzure" -OutputFile "./Test-Pester.XML" -OutputFormat 'NUnitXML' -CodeCoverage "./*.psm1"
+      Invoke-Pester $(Build.SourcesDirectory)\WixInstaller\WixInstaller.Tests.ps1 -ExcludeTag "ExcludeOnAzure" -OutputFile "./Test-Pester.XML" -OutputFormat 'NUnitXML' -CodeCoverage "./*.psm1"
 
 - task: PublishTestResults@2
   inputs:
