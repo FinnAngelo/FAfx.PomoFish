@@ -21,7 +21,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your PowerShell commands here.
-      Invoke-Pester $(Build_SourcesDirectory)\WixInstaller\WixInstaller.Tests.ps1 -ExcludeTag "ExcludeOnAzure"
+      Invoke-Pester $(Build.SourcesDirectory)\WixInstaller\WixInstaller.Tests.ps1 -ExcludeTag "ExcludeOnAzure"
 
 #- task: NuGetCommand@2
 #  inputs:
