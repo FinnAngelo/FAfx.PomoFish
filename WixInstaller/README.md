@@ -33,3 +33,4 @@ Ready for release
 ## Links ##
 
 + [The MS Agents on Azure Devops](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops)
++ [Release to GitHub with Azure Pipelines](https://devblogs.microsoft.com/devops/automating-releases-in-github-through-azure-pipelines/)
