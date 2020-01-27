@@ -31,3 +31,5 @@ Ready for release
 ## Future bucket ##
 
 ## Links ##
+
++ [The MS Agents on Azure Devops](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops)
