@@ -5,7 +5,7 @@
 + [Doing](#Doing)
 + [ToDo](#ToDo)
 + [Done](#Done)
-  + [v1.0.0](#v1.0.0)
+  + [v1.0.0](#v100)
 + [Future bucket](#Future-bucket)
 + [Links](#Links)
 
