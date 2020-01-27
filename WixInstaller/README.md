@@ -32,5 +32,6 @@ Ready for release
 
 ## Links ##
 
++ [Wix Tutorial](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with)
 + [The MS Agents on Azure Devops](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops)
 + [Release to GitHub with Azure Pipelines](https://devblogs.microsoft.com/devops/automating-releases-in-github-through-azure-pipelines/)
