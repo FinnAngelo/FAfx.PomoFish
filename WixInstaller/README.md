@@ -13,12 +13,10 @@
 
 ## ToDo ##
 
-+ Download docker
-+ HelloWorld winform
 + Wix as per tut
-+ Install on docker
-+ Uninstall on docker
-+ Custom licence
++ Custom license
+  + MIT as per [project license](https://github.com/FinnAngelo/PomoFish/blob/master/LICENSE)
++ Icon - very important!
 + Build Azure CI/CD with Yaml
 + Push installers to github with tagging
 
@@ -29,6 +27,11 @@ Ready for release
 ### v1.0.0 ###
 
 ## Future bucket ##
+
++ Download docker
++ Install on docker
++ Uninstall on docker
++ DotNet prerequisites
 
 ## Links ##
 
