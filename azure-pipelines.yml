@@ -17,6 +17,8 @@ variables:
 name: 0.0$(Rev:.r)
 
 steps:
+#-----------------------------------------------------------
+# Build exe
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -53,6 +55,8 @@ steps:
     command: 'custom'
     arguments: 'install WiX -OutputDirectory "$(Build.SourcesDirectory)\Tools" -ExcludeVersion'
 
+#-----------------------------------------------------------
+# Create Installer
 - task: PowerShell@2
   displayName: 'candle'
   inputs:
