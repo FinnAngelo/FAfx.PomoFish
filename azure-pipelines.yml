@@ -55,9 +55,9 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\candle.exe" -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)/Release/net35" PomoFish.wxs -out PomoFish.$(Build.BuildNumber).wixobj'
+    script: '${Build.SourcesDirectory}\Tools\WiX\tools\candle.exe" -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)/Release/net35" PomoFish.wxs -out PomoFish.$(Build.BuildNumber).wixobj'
 
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\light.exe" -ext WixUIExtension PomoFish.$version.wixobj -out PomoFish.$version.msi'
+    script: '${Build.SourcesDirectory}\Tools\WiX\tools\light.exe" -ext WixUIExtension PomoFish.$version.wixobj -out PomoFish.$version.msi'
