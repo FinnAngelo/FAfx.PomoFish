@@ -40,12 +40,12 @@ steps:
     Contents: '**'
     TargetFolder: '$(System.ArtifactsDirectory)'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Artifact: drop'
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'drop'
+#     publishLocation: 'Container'
 
 - task: NuGetCommand@2
   inputs:
@@ -55,9 +55,5 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '${Build.SourcesDirectory}\Tools\WiX\tools\candle.exe" -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)/Release/net35" PomoFish.wxs -out PomoFish.$(Build.BuildNumber).wixobj'
+    script: '${Build_SourcesDirectory}\Tools\WiX\tools\candle.exe" -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)/Release/net35" PomoFish.wxs -out PomoFish.$(Build.BuildNumber).wixobj'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: '${Build.SourcesDirectory}\Tools\WiX\tools\light.exe" -ext WixUIExtension PomoFish.$version.wixobj -out PomoFish.$version.msi'
