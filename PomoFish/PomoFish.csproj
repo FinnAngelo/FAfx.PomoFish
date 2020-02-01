@@ -18,10 +18,20 @@
       Built: $([System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss"))
     </PackageReleaseNotes>
     <PackageTags>pomodoro timer</PackageTags>
+  </PropertyGroup>
+  
+   <PropertyGroup Condition=" '$(BuildVersion)' == '' ">
     <AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmm.ssff"))</AssemblyVersion>
     <FileVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmm.ssff"))</FileVersion>
     <Version>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmmss"))</Version>
     <InformationalVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmmss"))</InformationalVersion >
+  </PropertyGroup>
+   
+  <PropertyGroup Condition=" '$(BuildVersion)' != '' ">
+    <AssemblyVersion>$(BuildVersion)</AssemblyVersion>
+    <FileVersion>$(BuildVersion)</FileVersion>
+    <Version>$(BuildVersion)</Version>
+    <InformationalVersion>$(BuildVersion)</InformationalVersion >
   </PropertyGroup>
 
   <ItemGroup>
