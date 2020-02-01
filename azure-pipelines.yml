@@ -48,12 +48,26 @@ steps:
     publishLocation: 'Container'
 
 - task: NuGetCommand@2
+  displayName: 'install WiX'
   inputs:
     command: 'custom'
     arguments: 'install WiX -OutputDirectory "$(Build.SourcesDirectory)\Tools" -ExcludeVersion'
 
 - task: PowerShell@2
+  displayName: 'candle'
   inputs:
     targetType: 'inline'
-    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\candle.exe -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)\Release\net35" $(Build.SourcesDirectory)\WixInstaller\PomoFish.wxs -out PomoFish.$(Build.BuildNumber).wixobj'
+    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\candle.exe -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)\Release\net35" $(Build.SourcesDirectory)\WixInstaller\PomoFish.wxs -out $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).wixobj'
 
+- task: PowerShell@2
+  displayName: 'light'
+  inputs:
+    targetType: 'inline'
+    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\light.exe -ext WixUIExtension -dWixUILicenseRtf="$(Build.SourcesDirectory)\WixInstaller\License.rtf" $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).wixobj -out $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).msi'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: release'
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).msi'
+    ArtifactName: 'release'
+    publishLocation: 'Container'
