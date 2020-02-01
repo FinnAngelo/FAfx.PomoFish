@@ -15,29 +15,25 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-#- task: NuGetToolInstaller@1
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      Invoke-Pester $(Build.SourcesDirectory)\WixInstaller\WixInstaller.Tests.ps1 -ExcludeTag "ExcludeOnAzure" -OutputFile "./Test-Pester.XML" -OutputFormat 'NUnitXML' -CodeCoverage "./*.psm1"
+- task: NuGetToolInstaller@1
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       # Write your PowerShell commands here.
+      
+#       Write-Host "<<$env:Build_BuildId>>"
+#       Write-Host "<<$PSScriptRoot>>"
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'NUnit'
-    testResultsFiles: '**/TEST-*.xml'
-    failTaskOnFailedTests: true
+- task: NuGetCommand@2
+ inputs:
+   restoreSolution: '$(solution)'
 
-#- task: NuGetCommand@2
-#  inputs:
-#    restoreSolution: '$(solution)'
-
-#- task: VSBuild@1
-#  inputs:
-#    solution: '$(solution)'
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
+- task: VSBuild@1
+ inputs:
+   solution: '$(solution)'
+   platform: '$(buildPlatform)'
+   configuration: '$(buildConfiguration)'
 
 #- task: VSTest@2
 #  inputs:
