@@ -20,18 +20,18 @@
     <PackageTags>pomodoro timer</PackageTags>
   </PropertyGroup>
   
-   <PropertyGroup Condition=" '$(Build.BuildNumber)' == '' ">
+   <PropertyGroup Condition=" '$(Build_BuildNumber)' == '' ">
     <AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmm.ssff"))</AssemblyVersion>
     <FileVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmm.ssff"))</FileVersion>
     <Version>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmmss"))</Version>
     <InformationalVersion>$([System.DateTime]::Now.ToString("yyyy.MMdd.HHmmss"))</InformationalVersion >
   </PropertyGroup>
    
-  <PropertyGroup Condition=" '$(Build.BuildNumber)' != '' ">
-    <AssemblyVersion>$(Build.BuildNumber)</AssemblyVersion>
-    <FileVersion>$(Build.BuildNumber)</FileVersion>
-    <Version>$(Build.BuildNumber)</Version>
-    <InformationalVersion>$(Build.BuildNumber)</InformationalVersion >
+  <PropertyGroup Condition=" '$(Build_BuildNumber)' != '' ">
+    <AssemblyVersion>$(Build_BuildNumber)</AssemblyVersion>
+    <FileVersion>$(Build_BuildNumber)</FileVersion>
+    <Version>$(Build_BuildNumber)</Version>
+    <InformationalVersion>$(Build_BuildNumber)</InformationalVersion >
   </PropertyGroup>
 
   <ItemGroup>
