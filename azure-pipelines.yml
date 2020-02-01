@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- create-wix-installer
+- master
 
 pool:
   vmImage: 'windows-latest'
@@ -14,7 +14,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-name: 0.0$(Rev:.r)
+name: 1.0$(Rev:.r)
 
 steps:
 #-----------------------------------------------------------
