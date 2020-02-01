@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!-- <?define ProductVersion = "0.0.2"?> -->
+<!-- <?define BinDir = "0.0.2"?> -->
+<?define ProductUpgradeCode = "7e20c55a-13c3-48a3-9dac-cdfe324be0c9"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+   <Product Id="*" UpgradeCode="$(var.ProductUpgradeCode)" 
+            Name="PomoFish" Version="$(var.ProductVersion)" Manufacturer="Jon Finn Angelo" Language="1033">
+      <Package InstallerVersion="200" Compressed="yes" Comments="Windows Installer Package"/>
+      <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+      <Icon Id="ProductIcon" SourceFile="$(var.BinDir)\Resources\PomofishIcon.ico"/>
+	  <UIRef Id="WixUI_Minimal" />
+      <Property Id="ARPPRODUCTICON" Value="ProductIcon"/>
+      <Property Id="ARPHELPLINK" Value="https://github.com/FinnAngelo/PomoFish"/>
+      <Property Id="ARPURLINFOABOUT" Value="https://github.com/FinnAngelo/PomoFish"/>
+      <Property Id="ARPNOREPAIR" Value="1"/>
+      <!-- <Property Id="ARPNOMODIFY" Value="1"/> -->
+      <Upgrade Id="$(var.ProductUpgradeCode)">
+         <UpgradeVersion Minimum="$(var.ProductVersion)" OnlyDetect="yes" Property="NEWERVERSIONDETECTED"/>
+         <UpgradeVersion Minimum="0.0.0" Maximum="$(var.ProductVersion)" IncludeMinimum="yes" IncludeMaximum="no" 
+                         Property="OLDERVERSIONBEINGUPGRADED"/>	  
+      </Upgrade>
+      <Condition Message="A newer version of this software is already installed.">NOT NEWERVERSIONDETECTED</Condition>
+
+      <Directory Id="TARGETDIR" Name="SourceDir">
+         <Directory Id="ProgramFilesFolder">
+            <Directory Id="INSTALLDIR" Name="PomoFish">
+               <Component Id="ApplicationFiles" Guid="acf97917-13f4-43d4-9d25-2d9104096a18">
+                  <File Id="ApplicationExe" Source="$(var.BinDir)\PomoFish.exe"/>
+                  <File Id="ApplicationConfig" Source="$(var.BinDir)\PomoFish.exe.config"/>
+               </Component>
+            </Directory>
+         </Directory>
+
+         <Directory Id="ProgramMenuFolder">
+            <Directory Id="ProgramMenuSubfolder" Name="PomoFish">
+               <Component Id="ApplicationShortcuts" Guid="638d9a4c-1d71-459a-bf15-c7230679016c">
+                  <Shortcut Id="ApplicationShortcut1" Name="PomoFish" Description="PomoFish" 
+
+                            Target="[INSTALLDIR]PomoFish.exe" WorkingDirectory="INSTALLDIR"/>
+                  <RegistryValue Root="HKCU" Key="Software\Jon FinnAngelo\PomoFish" 
+
+                            Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+                  <RemoveFolder Id="ProgramMenuSubfolder" On="uninstall"/>
+               </Component>
+            </Directory>
+         </Directory>
+      </Directory>
+
+      <InstallExecuteSequence>
+         <RemoveExistingProducts After="InstallValidate"/>
+      </InstallExecuteSequence>
+
+      <Feature Id="DefaultFeature" Level="1">
+         <ComponentRef Id="ApplicationFiles"/>
+         <ComponentRef Id="ApplicationShortcuts"/>
+      </Feature>
+   </Product>
+</Wix>

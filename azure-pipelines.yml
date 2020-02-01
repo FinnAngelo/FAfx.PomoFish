@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
+- create-wix-installer
 
 pool:
   vmImage: 'windows-latest'
@@ -14,28 +14,64 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+name: 0.0$(Rev:.r)
+
 steps:
-#- task: NuGetToolInstaller@1
+#-----------------------------------------------------------
+# Build exe
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# - task: VSTest@2
+#   inputs:
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)\PomoFish\bin\'
+    Contents: '**'
+    TargetFolder: '$(System.ArtifactsDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: NuGetCommand@2
+  displayName: 'install WiX'
+  inputs:
+    command: 'custom'
+    arguments: 'install WiX -OutputDirectory "$(Build.SourcesDirectory)\Tools" -ExcludeVersion'
+
+#-----------------------------------------------------------
+# Create Installer
 - task: PowerShell@2
+  displayName: 'candle'
   inputs:
     targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      
-      Write-Host "<<$env:Build_BuildId>>"
-      Write-Host "<<$PSScriptRoot>>"
+    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\candle.exe -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)\Release\net35" $(Build.SourcesDirectory)\WixInstaller\PomoFish.wxs -out $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).wixobj'
 
-#- task: NuGetCommand@2
-#  inputs:
-#    restoreSolution: '$(solution)'
+- task: PowerShell@2
+  displayName: 'light'
+  inputs:
+    targetType: 'inline'
+    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\light.exe -ext WixUIExtension -dWixUILicenseRtf="$(Build.SourcesDirectory)\WixInstaller\License.rtf" $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).wixobj -out $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).msi'
 
-#- task: VSBuild@1
-#  inputs:
-#    solution: '$(solution)'
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
-
-#- task: VSTest@2
-#  inputs:
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: release'
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).msi'
+    ArtifactName: 'release'
+    publishLocation: 'Container'
