@@ -13,9 +13,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  buildVersion: 0.0.$(Rev:.r)
 
-name: $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+name: 0.0.$(Rev:.r)
 
 steps:
 - task: NuGetToolInstaller@1
