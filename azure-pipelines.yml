@@ -61,7 +61,7 @@ steps:
   displayName: 'candle'
   inputs:
     targetType: 'inline'
-    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\candle.exe -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)\Release\net35" $(Build.SourcesDirectory)\WixInstaller\PomoFish.wxs -out $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).wixobj'
+    script: '$(Build.SourcesDirectory)\Tools\WiX\tools\candle.exe -dProductVersion="$(Build.BuildNumber)" -dBinDir="$(Build.ArtifactStagingDirectory)\Release\net48" $(Build.SourcesDirectory)\WixInstaller\PomoFish.wxs -out $(Build.SourcesDirectory)\WixInstaller\PomoFish.$(Build.BuildNumber).wixobj'
 
 - task: PowerShell@2
   displayName: 'light'
